@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  db:
+    build: 
+      context: ./docker/db
+    ports:
+      - "${DB_EXPOSE_PORT}:${DB_PORT}"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+
+  php:
+    build:
+      context: ./docker/php
+    ports:
+      - "${WEB_SERVER_EXPOSE_PORT}:${WEB_SERVER_PORT}"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_PORT: ${DB_PORT}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_USER_PASSWORD: ${DB_USER_PASSWORD}
+    volumes:
+      - .:/var/www/html
+      - ./docker/logs:/var/log/apache2
+    depends_on:
+      - db
+    links:
+      - db

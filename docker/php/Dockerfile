@@ -1,0 +1,33 @@
+FROM php:7.0-apache
+
+RUN apt-get update \
+    # Required libraries to install PHP extensions
+    && apt-get install -y \
+    libicu-dev \
+    libmcrypt-dev \
+    libxml2-dev \
+    zlib1g-dev \
+    libcurl4-openssl-dev \
+    sendmail \
+    # Install PHP extensions
+    && docker-php-ext-install \
+    curl \
+    iconv \
+    intl \
+    mysqli \
+    mcrypt \
+    mbstring \
+    xml \
+    zip
+
+ADD ./conf/php.ini /usr/local/etc/php/conf.d/
+
+# Apache
+ADD ./000-wp.conf /etc/apache2/sites-available/
+
+# Enable default site
+RUN a2ensite 000-wp.conf \
+    # Disable Apache's default site
+    && a2dissite 000-default \
+    # Enable required Apache modules
+    && a2enmod rewrite expires

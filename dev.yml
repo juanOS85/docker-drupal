@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile-dev
+    environment:
+      DEVELOPMENT: "yes"
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      XDEBUG_CONFIG: remote_host=192.168.0.4
+    depends_on:
+      - mailhog
+    links:
+      - mailhog
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
