@@ -1,4 +1,4 @@
-# Docker template for WordPress projects
+# Docker template for Drupal 7/8 projects
 
 * This repo template is meant to be forked for Drupal projects.
 * Drupal files should be placed on `./drupal` directory.
