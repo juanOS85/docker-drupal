@@ -8,7 +8,13 @@ RUN apt-get update \
     libxml2-dev \
     zlib1g-dev \
     libcurl4-openssl-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libmcrypt-dev \
+    libpng12-dev \
     sendmail \
+    # Configure custom PHP extension arguments
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     # Install PHP extensions
     && docker-php-ext-install \
     curl \
@@ -18,15 +24,16 @@ RUN apt-get update \
     mcrypt \
     mbstring \
     xml \
-    zip
+    zip \
+    gd
 
 ADD ./conf/php.ini /usr/local/etc/php/conf.d/
 
 # Apache
-ADD ./000-wp.conf /etc/apache2/sites-available/
+ADD ./000-drupal.conf /etc/apache2/sites-available/
 
 # Enable default site
-RUN a2ensite 000-wp.conf \
+RUN a2ensite 000-drupal.conf \
     # Disable Apache's default site
     && a2dissite 000-default \
     # Enable required Apache modules

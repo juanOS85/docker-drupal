@@ -1,14 +1,20 @@
 # Docker template for WordPress projects
 
-* This repo template is intent to be forked for WordPress projects.
-* WordPress files should be placed on the root folder.
+* This repo template is meant to be forked for Drupal projects.
+* Drupal files should be placed on `./drupal` directory.
 
 ## Development
 
 ### Build
 
 ```
-$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+$ docker-compose -f base.yml -f dev.yml up -d
+```
+
+### Stop containers
+
+```
+$ docker-compose -f base.yml -f dev.yml stop
 ```
 
 ## Production
@@ -16,5 +22,12 @@ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ### Build
 
 ```
-$ docker-compose up
+$ docker-compose -f base.yml up -d
+```
+
+
+### Stop containers
+
+```
+$ docker-compose -f base.yml stop
 ```

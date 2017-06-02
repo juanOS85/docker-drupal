@@ -11,6 +11,8 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+    volumes:
+      - ./docker/logs/mysql:/var/log/mysql
 
   php:
     build:
@@ -18,14 +20,14 @@ services:
     ports:
       - "${WEB_SERVER_EXPOSE_PORT}:${WEB_SERVER_PORT}"
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_PORT: ${DB_PORT}
-      WORDPRESS_DB_NAME: ${DB_NAME}
-      WORDPRESS_DB_USER: ${DB_USER}
-      WORDPRESS_DB_USER_PASSWORD: ${DB_USER_PASSWORD}
+      DRUPAL_DB_HOST: db
+      DRUPAL_DB_PORT: ${DB_PORT}
+      DRUPAL_DB_NAME: ${DB_NAME}
+      DRUPAL_DB_USER: ${DB_USER}
+      DRUPAL_DB_USER_PASSWORD: ${DB_USER_PASSWORD}
     volumes:
-      - .:/var/www/html
-      - ./docker/logs:/var/log/apache2
+      - ./drupal:/var/www/html
+      - ./docker/logs/apache:/var/log/apache2
     depends_on:
       - db
     links:
