@@ -21,6 +21,8 @@ RUN apt-get update \
     iconv \
     intl \
     mysqli \
+    pdo \
+    pdo_mysql \
     mcrypt \
     mbstring \
     xml \

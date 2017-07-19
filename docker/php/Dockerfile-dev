@@ -21,6 +21,8 @@ RUN apt-get update \
     iconv \
     intl \
     mysqli \
+    pdo \
+    pdo_mysql \
     mcrypt \
     mbstring \
     xml \
@@ -29,6 +31,7 @@ RUN apt-get update \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+ADD ./conf/php.ini /usr/local/etc/php/conf.d/
 ADD ./conf/php-dev.ini /usr/local/etc/php/conf.d/
 ADD ./conf/xdebug.ini /usr/local/etc/php/conf.d/
 
